@@ -4,6 +4,7 @@ All notable changes to the media-tool-kit project will be documented here.
 
 ## 2025-11-13
 
+- added link to queral.studio in README intro, changing "a personal framework" to "my personal framework" with link
 - configured git to automatically switch between personal (luismqueral) and work (luis-nyt) identities based on directory location
 - added comprehensive automated changelog maintenance guidelines to cursor rules with branch organization and category templates
 - fixed git config email to use verified GitHub email (luismqueral@gmail.com) so commit avatar displays correctly

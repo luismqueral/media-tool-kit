@@ -1,6 +1,6 @@
 ![illustration](_app/mtk.png)
 
-**Media Tool Kit** is a personal framework for media manipulation. It's designed for LLM's within generative coding environments to quickly, and consistently, images, sounds, and video.
+**Media Tool Kit** is [my personal framework](http://www.queral.studio) for media manipulation. It's designed for LLM's within generative coding environments to quickly, and consistently, images, sounds, and video.
 
 The idea is to quickly make edits to media by just asking it.
 
