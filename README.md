@@ -1,19 +1,18 @@
 ![illustration](_app/mtk.png)
 
-# Media Tool Kit
+**Media Tool Kit** is a personal framework for media manipulation. It's designed for LLM's within generative coding environments to quickly, and consistently, images, sounds, and video.
 
-A modular workspace for rapid media file manipulation using Python and industry-standard command-line tools.
+The idea is to quickly make edits to media by just asking it.
 
-## Purpose
-
-This repository is designed for quick, LLM-assisted media processing. Drop in files, describe what you need, and get clean results organized in project folders.
+"Compress this video to 10MB" or "Remove transparency". That kind of stuff.
 
 ## Tools Used
-
+This is python-centric workspace. Scripts created in this workspace will leverage the following frameworks.
 - **Video**: ffmpeg
 - **Image**: ImageMagick  
 - **Audio**: SoX (Sound eXchange)
-- **Language**: Python 3.8+
+
+I expect this list to grow over time, but for now this will do.
 
 ## Installation
 
@@ -54,13 +53,25 @@ media-tool-kit/
 4. Results saved to project's `output/` directory
 5. Commands logged for reproducibility
 
+### Project Structure
+
+Each new project should be listed in the `projects/` directory and carry a consistent structure:
+
+```
+projects/
+└── [project-name]/
+    ├── input/          # Source/original files
+    ├── output/         # Processed results
+    └── README.md       # What was done, commands used
+```
+
+This keeps work organized, originals safe, and makes it easy to reproduce or reference past work.
+
 ## Getting Started
 
 Just describe what you want to do with your media files. Examples:
 
-- "Compress this video to under 10MB"
 - "Convert all these images to PNG"
 - "Extract audio from this video and normalize it"
 - "Trim this video from 1:30 to 2:45"
 
-The workspace stays clean, originals stay safe, and everything is organized.

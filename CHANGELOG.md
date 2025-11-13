@@ -4,6 +4,7 @@ All notable changes to the media-tool-kit project will be documented here.
 
 ## 2025-11-13
 
+- updated README with project structure documentation showing input/output directory organization for consistent project layouts
 - added "Rule of Three" philosophy to cursor rules - don't create reusable scripts until a pattern emerges after 2-3 uses, avoiding premature abstraction
 - clarified when to create scripts in scripts/ directory vs keeping commands in project folders for one-off operations
 - created initial project structure with cursor rules for LLM-assisted media processing workflow
