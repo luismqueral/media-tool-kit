@@ -1,0 +1,8 @@
+# Minimal Python dependencies for media-tool-kit
+# Most operations use direct subprocess calls to ffmpeg, ImageMagick, and SoX
+
+# Optional: Uncomment if needed for specific projects
+# ffmpeg-python==0.2.0  # Python wrapper for ffmpeg
+# Pillow==10.1.0        # Image processing (alternative to ImageMagick)
+# pydub==0.25.1         # Audio processing (alternative to SoX)
+

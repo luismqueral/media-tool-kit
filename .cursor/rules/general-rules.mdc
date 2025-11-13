@@ -1,0 +1,216 @@
+# Media Tool Kit - Cursor Rules
+
+## Project Purpose
+This repository is designed for rapid media file manipulation (video, audio, images) using LLMs and generative IDEs. Keep solutions practical, direct, and focused on getting media processing done efficiently.
+
+## Core Principles
+- **Modular over monolithic** - Create focused, reusable scripts rather than complex frameworks
+- **Direct tool usage** - Leverage industry-standard tools directly (ffmpeg, ImageMagick, SoX)
+- **Keep it clean** - Organize work into projects, don't clutter the root directory
+- **Preserve originals** - Never modify source files in place unless explicitly requested
+
+## Language & Tools
+
+### Primary Language: Python
+- Use Python 3.8+ for all scripts and utilities
+- Keep external dependencies minimal - prefer subprocess calls to tools over heavy wrappers
+- Use standard library where possible (subprocess, pathlib, argparse, logging)
+- Only add dependencies when they provide clear value (e.g., `ffmpeg-python` for complex pipelines)
+
+### Required Command-Line Tools
+- **Video**: `ffmpeg` (primary tool for all video operations)
+- **Image**: `ImageMagick` (convert, mogrify, composite, etc.)
+- **Audio**: `SoX` (Sound eXchange - audio processing Swiss Army knife)
+
+### Tool Usage Philosophy
+- Prefer direct command-line calls via subprocess for transparency
+- Show the actual commands being run (helps with debugging and learning)
+- Log operations so work is reproducible
+- Provide both script solutions AND raw commands when helpful
+
+## Workspace Organization
+
+### When User Drops Files in Root
+1. Assess what they want to do
+2. Create a descriptive project folder in `projects/` (e.g., `projects/2024-11-13-video-compression/`)
+3. Move or reference files appropriately
+4. Do the work within that project structure
+5. Keep root clean
+
+### Project Structure (Auto-Create as Needed)
+```
+projects/
+└── [descriptive-name]/
+    ├── input/          # Original files (or symlinks)
+    ├── output/         # Processed results
+    └── README.md       # What was done, commands used
+```
+
+### Scripts Directory
+- Place reusable utilities in `scripts/` ONLY after a pattern emerges
+- Name clearly: `compress_video.py`, `batch_resize_images.py`, etc.
+- Include usage examples in docstrings
+- Keep scripts standalone when possible (can be run independently)
+
+**When to create a script in `scripts/`:**
+- ✓ Operation done 2-3+ times with similar parameters
+- ✓ Complex multi-step process that's likely to repeat
+- ✓ Something that would benefit other projects
+- ✓ User explicitly asks for a reusable tool
+
+**When NOT to create a script in `scripts/`:**
+- ✗ First time doing an operation (just use commands directly)
+- ✗ Highly specific one-off task
+- ✗ Simple one-liner that's easy to remember/modify
+- ✗ "Just in case" utilities that might never be used
+
+**Project-specific scripts:**
+- One-off or experimental scripts can live in the project folder itself
+- If a project-specific script proves useful, promote it to `scripts/` later
+- No shame in copying/pasting commands between projects - refactor when the need is clear
+
+## Workflow Guidelines
+
+### File Handling
+- **Input files**: Keep originals safe, work on copies or write to separate output directories
+- **Naming**: Use clear, descriptive names for outputs (include dimensions, codec, bitrate, etc.)
+- **Formats**: Preserve format unless conversion is the goal
+- **Permissions**: Check file accessibility before processing
+
+### Processing Approach
+1. **Understand the ask** - What operation(s) are needed?
+2. **Validate inputs** - Check files exist, formats are supported
+3. **Show the plan** - Briefly explain what will happen
+4. **Execute** - Run the operations with clear progress/logging
+5. **Verify** - Confirm outputs were created successfully
+6. **Report** - Summarize what was done and where outputs are
+
+### Script Creation Philosophy
+Follow the "Rule of Three" - don't abstract until you've done it three times:
+
+**First time**: Use direct commands in project folder, document in README
+```bash
+# Just run the command, log it
+ffmpeg -i input.mp4 -vf "scale=1280:720" output.mp4
+```
+
+**Second time**: Maybe copy/paste from previous project, adjust parameters
+```bash
+# Still fine to just use commands with different params
+ffmpeg -i video2.mp4 -vf "scale=1280:720" output2.mp4
+```
+
+**Third time**: Now consider making a reusable script
+```python
+# scripts/resize_video.py - now it's worth abstracting
+def resize_video(input_path, output_path, width, height):
+    ...
+```
+
+This keeps you from building tools you don't need while ensuring truly useful patterns get captured.
+
+### Error Handling
+- Always check if required tools (ffmpeg, convert, sox) are available
+- Validate file paths before processing
+- Catch and explain errors clearly
+- Suggest fixes when operations fail
+
+### Documentation
+- Log operations in project README files
+- Include the actual commands used (for reproducibility)
+- Note any quality/size trade-offs made
+- Keep logs concise but informative
+
+## Common Operations Reference
+
+### Video (ffmpeg)
+```bash
+# Compress video
+ffmpeg -i input.mp4 -vcodec libx264 -crf 23 output.mp4
+
+# Trim video
+ffmpeg -i input.mp4 -ss 00:00:10 -to 00:00:20 -c copy output.mp4
+
+# Extract audio
+ffmpeg -i input.mp4 -vn -acodec copy audio.aac
+
+# Convert format
+ffmpeg -i input.mov -c:v copy -c:a copy output.mp4
+```
+
+### Image (ImageMagick)
+```bash
+# Resize image
+convert input.jpg -resize 1920x1080 output.jpg
+
+# Batch convert format
+mogrify -format png *.jpg
+
+# Add watermark
+composite -gravity southeast watermark.png input.jpg output.jpg
+
+# Compress
+convert input.jpg -quality 85 output.jpg
+```
+
+### Audio (SoX)
+```bash
+# Convert format
+sox input.wav output.mp3
+
+# Trim audio
+sox input.mp3 output.mp3 trim 10 20
+
+# Normalize volume
+sox input.mp3 output.mp3 norm
+
+# Change sample rate
+sox input.wav -r 44100 output.wav
+```
+
+## Code Style
+
+### Python Scripts
+- Use `pathlib.Path` for file operations
+- Include `if __name__ == "__main__"` blocks
+- Add argparse for CLI arguments when scripts are reusable
+- Use f-strings for formatting
+- Type hints appreciated but not required
+
+### Script Template
+```python
+#!/usr/bin/env python3
+"""
+Brief description of what this script does.
+"""
+import subprocess
+from pathlib import Path
+
+def main():
+    # Your logic here
+    pass
+
+if __name__ == "__main__":
+    main()
+```
+
+## Dependencies Management
+- Keep a `requirements.txt` in the root for any Python packages
+- Document tool installation in README (brew, apt, etc.)
+- Assume common tools may not be installed - check and warn
+
+## What NOT to Do
+- Don't create complex class hierarchies for simple scripts
+- Don't over-engineer - if a 20-line script works, use it
+- Don't install heavy frameworks unless absolutely needed
+- Don't process files without confirming user intent
+- Don't delete originals unless explicitly requested
+
+## Quality Standards
+- **Video**: Default to h264/h265, CRF 23 for compression
+- **Audio**: Preserve sample rate unless conversion needed
+- **Images**: Use quality 85-95 for JPEGs, PNG for lossless
+- Ask about quality preferences for major operations
+
+## Remember
+This toolkit is about **speed and flexibility**. User drops in files, describes what they need, and we handle it efficiently. Keep solutions straightforward, transparent, and well-organized.
