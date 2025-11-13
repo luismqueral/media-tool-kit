@@ -214,3 +214,152 @@ if __name__ == "__main__":
 
 ## Remember
 This toolkit is about **speed and flexibility**. User drops in files, describes what they need, and we handle it efficiently. Keep solutions straightforward, transparent, and well-organized.
+
+## Automated Changelog Maintenance
+
+After completing each user request that modifies code or architecture, update the project changelog at `CHANGELOG.md` in the project root (exceptions listed below in "What NOT to Document").
+
+### Entry Format Template
+
+Each changelog entry follows this structure:
+
+```
+## YYYY-MM-DD
+
+### Branch: `branch-name`
+
+#### Category: Brief Impact Statement
+- detailed explanation of what changed and why
+- include relevant file names but prioritize functional impact
+- mention quantifiable improvements when applicable (e.g., "~40% faster")
+```
+
+**Categories:**
+- `✨ Feature` - New functionality or capabilities
+- `🐛 Fix` - Bug fixes or corrections
+- `♻️ Refactor` - Code improvements without functional changes
+- `🎨 UI/UX` - Design or user experience updates
+- `📦 Dependencies` - Package additions, removals, or updates
+- `⚠️ Breaking` - Changes requiring user action or migration
+- `📝 Docs` - Documentation-only changes
+
+### Branch Organization
+
+**When to include branch names:**
+- Working on feature branches (prefix with `### Branch: feature/branch-name`)
+- When merging, use: `### Branch: feature/branch-name → main (merged)`
+- Include PR number if applicable: `(merged PR #123)`
+
+**When to skip branch notation:**
+- Direct commits to main can use `### Branch: main` or omit branch entirely
+- Short-lived branches that merge same-day
+- Simple hotfixes
+
+### Writing Guidelines
+
+**Tone and Style:**
+- write as if explaining to a colleague over coffee
+- start entries with lowercase (keeps it conversational)
+- use past tense consistently ("updated", "fixed", "refactored")
+- keep individual entries to 1-2 lines when possible
+
+**Detail Level:**
+- high-level functional impact > low-level implementation details
+- include "why" when it's not obvious from the "what"
+- mention specific files when helpful for traceability
+- note performance improvements with approximate numbers
+
+**Chronology:**
+- most recent date at the top
+- within each date, most recent changes at the top
+- if today's date exists, prepend new entries to that date section
+
+### Example Entries
+
+```markdown
+## 2025-11-13
+
+### Branch: `feature/ai-analysis`
+
+#### ✨ Feature: Agentic code analysis
+- implemented LLM-powered code exploration with autonomous decision making
+- system makes its own choices about which files to examine based on findings
+- added token budget tracking to prevent runaway costs
+- files: `AgenticAnalyzer.ts`, `AnalysisOrchestrator.ts`, `types/analysis.ts`
+
+#### 📦 Dependencies: OpenAI SDK
+- added openai v4.20.1 for GPT-4 integration
+- configured with streaming support for real-time responses
+
+### Branch: `fix/image-optimization`
+
+#### 🐛 Fix: WebP conversion timeouts
+- fixed images larger than 5MB timing out during WebP conversion
+- switched to streaming approach instead of loading entire file into memory
+- reduces memory usage by ~80% and handles files up to 50MB
+- updated `imageOptimizer.ts` and added `streamingConverter.ts` utility
+
+### Branch: `main`
+
+#### ♻️ Refactor: Auth validation utility
+- noticed auth validation duplicated across 8 different API routes
+- created `validateAuth.ts` utility for token verification, user lookup, and permission checks
+- follows "Rule of Three" principle from coding guidelines
+
+## 2025-11-12
+
+### Branch: `feature/dark-mode` → `main` (merged PR #156)
+
+#### 🎨 UI/UX: System-wide dark mode
+- implemented dark mode with user preference storage in localStorage
+- updated all components with dark mode variants using Tailwind's dark: modifier
+- added smooth transition animations between themes
+- files: `ThemeProvider.tsx`, `globals.css`, 40+ component files
+```
+
+### What NOT to Document
+
+Skip these types of changes:
+- dependency updates with no functional impact
+- code formatting, linting, or whitespace-only changes
+- debugging attempts that didn't result in actual code changes
+- reverted changes that had no net effect
+- typo fixes in comments (unless they clarify critical behavior)
+
+### Multi-Change Sessions
+
+When a single session involves multiple changes:
+- group them under the same date
+- use separate branch sections for each logical branch
+- use separate category sections within each branch
+- if changes are related, combine them into one entry explaining the net effect
+
+### Conflict Handling
+
+If today's date already has entries:
+1. read existing entries to avoid duplication
+2. prepend your new entries to that date section (or relevant branch section)
+3. if your change relates to an existing entry, update that entry instead of creating a new one
+4. if your change supersedes a previous entry, note it: "previously addressed in earlier session, now fully resolved"
+
+### Implementation Checklist
+
+After each coding session:
+- [ ] identify changes worth documenting (reference "What NOT to Document")
+- [ ] read the last 3-5 entries to maintain tone consistency
+- [ ] determine appropriate branch section (or create new one)
+- [ ] choose appropriate category for each change
+- [ ] write entries focusing on functional impact
+- [ ] add entries at the TOP of the file (or top of today's date section)
+- [ ] confirm with: **"Updated CHANGELOG.md with [category]: [brief description]"**
+
+### Quality Check
+
+Before finalizing changelog entries, ask:
+- would a colleague understand what changed and why?
+- did I explain the impact, not just the implementation?
+- is this entry meaningfully different from recent ones?
+- would this help future-me understand project evolution?
+- is the branch context clear if working on multiple branches?
+
+This approach keeps the changelog current, accurate, and genuinely useful for understanding project evolution and parallel development streams.

@@ -4,6 +4,9 @@ All notable changes to the media-tool-kit project will be documented here.
 
 ## 2025-11-13
 
+- configured git to automatically switch between personal (luismqueral) and work (luis-nyt) identities based on directory location
+- added comprehensive automated changelog maintenance guidelines to cursor rules with branch organization and category templates
+- fixed git config email to use verified GitHub email (luismqueral@gmail.com) so commit avatar displays correctly
 - updated README with project structure documentation showing input/output directory organization for consistent project layouts
 - added "Rule of Three" philosophy to cursor rules - don't create reusable scripts until a pattern emerges after 2-3 uses, avoiding premature abstraction
 - clarified when to create scripts in scripts/ directory vs keeping commands in project folders for one-off operations
